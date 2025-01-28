@@ -22,7 +22,9 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 llm = ChatOpenAI(model = "gpt-4o")
 
-loader = PyPDFDirectoryLoader("/Users/sandrogogaladze/Desktop/what to do/nbg/model risk/docs")
+# filepath = "/Users/sandrogogaladze/Desktop/what to do/nbg/model risk/docs"
+filepath = "/Users/sandrogogaladze/Desktop/PDFS"
+loader = PyPDFDirectoryLoader(filepath)
 
 docs = loader.load()
 
@@ -31,6 +33,10 @@ embeddings = OpenAIEmbeddings()
 text_splitter = RecursiveCharacterTextSplitter()
 documents = text_splitter.split_documents(docs)
 vectorstore = FAISS.from_documents(documents, embeddings)
+for d in documents:
+    print(d)
+    print("\n")
+    
 
 template = """"Answer the following question based only on the provided context:
 
