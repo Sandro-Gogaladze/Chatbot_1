@@ -30,8 +30,14 @@ docs = loader.load()
 
 embeddings = OpenAIEmbeddings()
 
-text_splitter = RecursiveCharacterTextSplitter()
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=5000,
+    chunk_overlap=100,
+    length_function=len,
+    is_separator_regex=False
+    )
 documents = text_splitter.split_documents(docs)
+
 vectorstore = FAISS.from_documents(documents, embeddings)
 for d in documents:
     print(d)
